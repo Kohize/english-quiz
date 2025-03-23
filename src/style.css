@@ -4,3 +4,12 @@
 @theme {
   --font-gidole: 'Gidole', sans-serif;
 }
+
+.answer__button {
+  background-color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  color: indigo;
+  font-weight: bold;
+  font-size: 18px;
+}
