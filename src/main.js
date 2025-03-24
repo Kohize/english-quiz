@@ -10,6 +10,13 @@ const startQuiz = () => {
   renderQuiz();
 };
 
+const allPositions = [
+  { colStart: 2, rowStart: 3 },
+  { colStart: 3, rowStart: 3 },
+  { colStart: 2, rowStart: 2 },
+  { colStart: 3, rowStart: 2 },
+];
+
 const renderQuiz = () => {
   let currentWord =
     mainQuizObject[Math.floor(Math.random() * mainQuizObject.length)];
@@ -18,7 +25,7 @@ const renderQuiz = () => {
   container.innerHTML = '';
 
   const quizWrapper = document.createElement('div');
-  quizWrapper.classList.add('grid', 'grid-cols-4', 'grid-rows-3', 'gap-3');
+  quizWrapper.classList.add('grid', 'grid-cols-4', 'grid-rows-3', 'gap-10');
   const roundWord = document.createElement('h2');
   const answerA = document.createElement('button');
   const answerB = document.createElement('button');
@@ -36,37 +43,34 @@ const renderQuiz = () => {
     'text-5xl',
     'text-center'
   );
+
+  const shuffledPositions = [...allPositions].sort(() => Math.random() - 0.5);
   answerA.classList.add(
-    'col-start-2',
-    'col-end-3',
-    'row-start-2',
-    'row-end-3',
+    `col-start-${shuffledPositions[0].colStart}`,
+    `row-start-${shuffledPositions[0].rowStart}`,
     'answer__button',
     'min-w-4'
   );
+
   answerB.classList.add(
-    'col-start-2',
-    'col-end-3',
-    'row-start-3',
-    'row-end-4',
+    `col-start-${shuffledPositions[1].colStart}`,
+    `row-start-${shuffledPositions[1].rowStart}`,
     'answer__button',
     'min-w-4'
   );
+
   answerC.classList.add(
-    'col-start-3',
-    'col-end-4',
-    'row-start-2',
-    'row-end-3',
+    `col-start-${shuffledPositions[2].colStart}`,
+    `row-start-${shuffledPositions[2].rowStart}`,
     'answer__button',
     'min-w-4'
   );
+
   answerD.classList.add(
-    'col-start-3',
-    'col-end-4',
-    'row-start-3',
-    'row-end-4',
-    'min-w-4',
-    'answer__button'
+    `col-start-${shuffledPositions[3].colStart}`,
+    `row-start-${shuffledPositions[3].rowStart}`,
+    'answer__button',
+    'min-w-4'
   );
 
   roundWord.innerText = currentWord.word;
@@ -74,6 +78,31 @@ const renderQuiz = () => {
   answerB.innerText = currentWord.b;
   answerC.innerText = currentWord.c;
   answerD.innerText = currentWord.d;
+
+  let buttons = document.querySelectorAll('button');
+  buttons.forEach((el) =>
+    el.addEventListener('click', (event) => {
+      let correctAnswer = Array.from(document.querySelectorAll('button')).find(
+        (button) => button.innerText === currentWord.correct
+      );
+      console.log(correctAnswer.innerHTML);
+      console.log(event.target.innerHTML);
+      console.log(event.target);
+      if (event.target.innerHTML === correctAnswer.innerHTML) {
+        event.target.style.backgroundColor = 'green';
+
+        setTimeout(() => {
+          renderQuiz();
+        }, 2000);
+      } else if (event.target.innerHTML !== correctAnswer.innerHTML) {
+        event.target.style.backgroundColor = 'red';
+        correctAnswer.style.backgroundColor = 'green';
+        setTimeout(() => {
+          renderQuiz();
+        }, 2000);
+      }
+    })
+  );
 };
 
 startButton.addEventListener('click', startQuiz);
