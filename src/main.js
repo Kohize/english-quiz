@@ -1,8 +1,6 @@
 import './style.css';
 import { mainQuizObject } from './main-quiz';
-let currentWord =
-  mainQuizObject[Math.floor(Math.random() * mainQuizObject.length)];
-console.log(currentWord);
+
 const startButton = document.getElementById('start');
 const container = document.getElementById('container');
 
@@ -22,10 +20,9 @@ let currentScore = 0;
 const renderQuiz = () => {
   let currentWord =
     mainQuizObject[Math.floor(Math.random() * mainQuizObject.length)];
+  let currentWordIndex = mainQuizObject.indexOf(currentWord);
 
-  console.log(currentWord);
   const counterContainer = renderCounter(currentScore);
-
   container.innerHTML = '';
 
   const quizWrapper = document.createElement('div');
@@ -56,7 +53,6 @@ const renderQuiz = () => {
   );
 
   const shuffledPositions = [...allPositions].sort(() => Math.random() - 0.5);
-  console.log(shuffledPositions);
   answerA.classList.add(
     `row-start-${shuffledPositions[0].rowStart}`,
     `col-start-${shuffledPositions[0].colStart}`,
@@ -97,10 +93,10 @@ const renderQuiz = () => {
       let correctAnswer = Array.from(document.querySelectorAll('button')).find(
         (button) => button.innerText === currentWord.correct
       );
-      console.log(correctAnswer.innerHTML);
-      console.log(event.target.innerHTML);
-      console.log(event.target);
+      console.log(currentWordIndex);
       currentScore++;
+      mainQuizObject.splice(currentWordIndex, 1);
+      console.log(mainQuizObject);
       if (event.target.innerHTML === correctAnswer.innerHTML) {
         event.target.style.backgroundColor = 'green';
         setTimeout(() => {
