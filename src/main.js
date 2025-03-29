@@ -11,10 +11,10 @@ const startQuiz = () => {
 };
 
 const allPositions = [
-  { colStart: 2, rowStart: 3 },
-  { colStart: 3, rowStart: 3 },
+  { colStart: 1, rowStart: 2 },
+  { colStart: 1, rowStart: 3 },
   { colStart: 2, rowStart: 2 },
-  { colStart: 3, rowStart: 2 },
+  { colStart: 2, rowStart: 3 },
 ];
 
 const renderQuiz = () => {
@@ -25,7 +25,14 @@ const renderQuiz = () => {
   container.innerHTML = '';
 
   const quizWrapper = document.createElement('div');
-  quizWrapper.classList.add('grid', 'grid-cols-4', 'grid-rows-3', 'gap-10');
+  quizWrapper.classList.add(
+    'grid',
+    'grid-cols-2',
+    'grid-rows-3',
+    'gap-10',
+    'auto-rows-[0]',
+    'grid-flow-dense'
+  );
   const roundWord = document.createElement('h2');
   const answerA = document.createElement('button');
   const answerB = document.createElement('button');
@@ -37,38 +44,39 @@ const renderQuiz = () => {
   roundWord.classList.add(
     'text-white',
     'font-bold',
-    'col-start-2',
-    'col-end-4',
+    'col-start-1',
+    'col-end-3',
     'min-w-xl',
     'text-5xl',
     'text-center'
   );
 
   const shuffledPositions = [...allPositions].sort(() => Math.random() - 0.5);
+  console.log(shuffledPositions);
   answerA.classList.add(
-    `col-start-${shuffledPositions[0].colStart}`,
     `row-start-${shuffledPositions[0].rowStart}`,
+    `col-start-${shuffledPositions[0].colStart}`,
     'answer__button',
     'min-w-4'
   );
 
   answerB.classList.add(
-    `col-start-${shuffledPositions[1].colStart}`,
     `row-start-${shuffledPositions[1].rowStart}`,
+    `col-start-${shuffledPositions[1].colStart}`,
     'answer__button',
     'min-w-4'
   );
 
   answerC.classList.add(
-    `col-start-${shuffledPositions[2].colStart}`,
     `row-start-${shuffledPositions[2].rowStart}`,
+    `col-start-${shuffledPositions[2].colStart}`,
     'answer__button',
     'min-w-4'
   );
 
   answerD.classList.add(
-    `col-start-${shuffledPositions[3].colStart}`,
     `row-start-${shuffledPositions[3].rowStart}`,
+    `col-start-${shuffledPositions[3].colStart}`,
     'answer__button',
     'min-w-4'
   );
