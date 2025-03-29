@@ -17,10 +17,14 @@ const allPositions = [
   { colStart: 2, rowStart: 3 },
 ];
 
+let currentScore = 0;
+
 const renderQuiz = () => {
   let currentWord =
     mainQuizObject[Math.floor(Math.random() * mainQuizObject.length)];
+
   console.log(currentWord);
+  const counterContainer = renderCounter(currentScore);
 
   container.innerHTML = '';
 
@@ -39,7 +43,7 @@ const renderQuiz = () => {
   const answerC = document.createElement('button');
   const answerD = document.createElement('button');
   quizWrapper.append(roundWord, answerA, answerB, answerC, answerD);
-  container.append(quizWrapper);
+  container.append(quizWrapper, counterContainer);
 
   roundWord.classList.add(
     'text-white',
@@ -96,9 +100,9 @@ const renderQuiz = () => {
       console.log(correctAnswer.innerHTML);
       console.log(event.target.innerHTML);
       console.log(event.target);
+      currentScore++;
       if (event.target.innerHTML === correctAnswer.innerHTML) {
         event.target.style.backgroundColor = 'green';
-
         setTimeout(() => {
           renderQuiz();
         }, 2000);
@@ -111,6 +115,17 @@ const renderQuiz = () => {
       }
     })
   );
+};
+
+const renderCounter = (currentScore) => {
+  let scoreContainer = document.createElement('div');
+  let counter = document.createElement('span');
+
+  counter.innerText = `${currentScore}/20`;
+  counter.classList.add('text-white', 'font-bold', 'text-4xl');
+  scoreContainer.classList.add('absolute', 'top-[55%]', 'right-[15%]');
+  scoreContainer.append(counter);
+  return scoreContainer;
 };
 
 startButton.addEventListener('click', startQuiz);
