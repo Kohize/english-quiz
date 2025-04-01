@@ -3,11 +3,6 @@ import { mainQuizObject } from './main-quiz';
 
 const startButton = document.getElementById('start');
 const container = document.getElementById('container');
-
-const startQuiz = () => {
-  renderQuiz();
-};
-
 const allPositions = [
   { colStart: 1, rowStart: 2 },
   { colStart: 1, rowStart: 3 },
@@ -15,13 +10,21 @@ const allPositions = [
   { colStart: 2, rowStart: 3 },
 ];
 
+const startQuiz = () => {
+  currentScore = 0;
+  correctAnswersAmount = 0;
+  renderQuiz();
+};
+
 let currentScore = 0;
 let correctAnswersAmount = 0;
+let currentQuestionList = [...mainQuizObject];
 
 const renderQuiz = () => {
+  container.innerHTML = '';
   let currentWord =
-    mainQuizObject[Math.floor(Math.random() * mainQuizObject.length)];
-  let currentWordIndex = mainQuizObject.indexOf(currentWord);
+    currentQuestionList[Math.floor(Math.random() * currentQuestionList.length)];
+  let currentWordIndex = currentQuestionList.indexOf(currentWord);
 
   const quizWrapper = document.createElement('div');
   quizWrapper.classList.add(
@@ -34,7 +37,6 @@ const renderQuiz = () => {
   );
 
   const counterContainer = renderCounter(currentScore);
-  container.innerHTML = '';
 
   const roundWord = document.createElement('h2');
   const answerA = document.createElement('button');
@@ -75,7 +77,8 @@ const renderQuiz = () => {
       );
       console.log(currentWordIndex);
       currentScore++;
-      mainQuizObject.splice(currentWordIndex, 1);
+      currentQuestionList.splice(currentWordIndex, 1);
+      console.log(currentQuestionList.length);
       console.log(mainQuizObject);
       if (event.target.innerHTML === correctAnswer.innerHTML) {
         event.target.style.backgroundColor = 'green';
@@ -157,9 +160,10 @@ const renderEndingScreen = () => {
   endingWrapper.append(endingTitle, endingResultText, restartButton);
   container.append(endingWrapper);
 
-  restartButton.addEventListener('click', startQuiz);
-
-  console.log('Ending');
+  restartButton.addEventListener('click', () => {
+    currentQuestionList = [...mainQuizObject];
+    startQuiz();
+  });
 };
 
 startButton.addEventListener('click', startQuiz);
