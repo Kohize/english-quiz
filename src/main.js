@@ -16,14 +16,12 @@ const allPositions = [
 ];
 
 let currentScore = 0;
+let correctAnswersAmount = 0;
 
 const renderQuiz = () => {
   let currentWord =
     mainQuizObject[Math.floor(Math.random() * mainQuizObject.length)];
   let currentWordIndex = mainQuizObject.indexOf(currentWord);
-
-  const counterContainer = renderCounter(currentScore);
-  container.innerHTML = '';
 
   const quizWrapper = document.createElement('div');
   quizWrapper.classList.add(
@@ -34,6 +32,10 @@ const renderQuiz = () => {
     'auto-rows-[0]',
     'grid-flow-dense'
   );
+
+  const counterContainer = renderCounter(currentScore);
+  container.innerHTML = '';
+
   const roundWord = document.createElement('h2');
   const answerA = document.createElement('button');
   const answerB = document.createElement('button');
@@ -53,34 +55,12 @@ const renderQuiz = () => {
   );
 
   const shuffledPositions = [...allPositions].sort(() => Math.random() - 0.5);
-  answerA.classList.add(
-    `row-start-${shuffledPositions[0].rowStart}`,
-    `col-start-${shuffledPositions[0].colStart}`,
-    'answer__button',
-    'min-w-4'
-  );
 
-  answerB.classList.add(
-    `row-start-${shuffledPositions[1].rowStart}`,
-    `col-start-${shuffledPositions[1].colStart}`,
-    'answer__button',
-    'min-w-4'
-  );
-
-  answerC.classList.add(
-    `row-start-${shuffledPositions[2].rowStart}`,
-    `col-start-${shuffledPositions[2].colStart}`,
-    'answer__button',
-    'min-w-4'
-  );
-
-  answerD.classList.add(
-    `row-start-${shuffledPositions[3].rowStart}`,
-    `col-start-${shuffledPositions[3].colStart}`,
-    'answer__button',
-    'min-w-4'
-  );
-
+  [answerA, answerB, answerC, answerD].forEach((el, i) => {
+    el.style.gridRowStart = shuffledPositions[i].rowStart;
+    el.style.gridColumnStart = shuffledPositions[i].colStart;
+    el.classList.add('answer__button', 'min-w-4');
+  });
   roundWord.innerText = currentWord.word;
   answerA.innerText = currentWord.a;
   answerB.innerText = currentWord.b;
@@ -99,6 +79,7 @@ const renderQuiz = () => {
       console.log(mainQuizObject);
       if (event.target.innerHTML === correctAnswer.innerHTML) {
         event.target.style.backgroundColor = 'green';
+        correctAnswersAmount++;
         setTimeout(() => {
           renderQuiz();
         }, 2000);
@@ -111,6 +92,7 @@ const renderQuiz = () => {
       }
     })
   );
+  handleRoundEnd();
 };
 
 const renderCounter = (currentScore) => {
@@ -122,6 +104,62 @@ const renderCounter = (currentScore) => {
   scoreContainer.classList.add('absolute', 'top-[55%]', 'right-[15%]');
   scoreContainer.append(counter);
   return scoreContainer;
+};
+
+const handleRoundEnd = () => {
+  if (currentScore === 20) {
+    container.innerHTML = '';
+    renderEndingScreen();
+  }
+};
+
+const renderEndingScreen = () => {
+  let endingWrapper = document.createElement('div');
+  endingWrapper.classList.add('flex', 'flex-col', 'gap-20', 'items-center');
+  let endingTitle = document.createElement('h3');
+  endingTitle.textContent =
+    correctAnswersAmount <= 5
+      ? 'Knowledge is like pizza—even a small slice is good!'
+      : correctAnswersAmount >= 5 && correctAnswersAmount < 10
+        ? 'Progress is visible! The next round will be even better!'
+        : correctAnswersAmount > 10 && correctAnswersAmount <= 15
+          ? 'Strong performance! You’re on your way to the top!'
+          : correctAnswersAmount > 15 && correctAnswersAmount <= 19
+            ? 'Almost flawless! You’re on the edge of greatness!'
+            : '100%! Are you a walking Great Britain?';
+  endingTitle.classList.add('text-4xl', 'font-gidole', 'text-white');
+
+  let endingResultText = document.createElement('p');
+  endingResultText.classList.add(
+    'text-3xl',
+    'font-gidole',
+    'text-white',
+    'text-center'
+  );
+  endingResultText.textContent = `Round is finished! You made ${correctAnswersAmount} correct answers.`;
+
+  let restartButton = document.createElement('button');
+  restartButton.classList.add(
+    'text-white',
+    'bg-indigo-500',
+    'p-5',
+    'font-gidole',
+    'text-2x1',
+    'font-bold',
+    'rounded-xl',
+    'min-w-30',
+    'hover:cursor-pointer',
+    'hover:bg-indigo-400',
+    'max-w-md'
+  );
+  restartButton.textContent = 'Restart';
+
+  endingWrapper.append(endingTitle, endingResultText, restartButton);
+  container.append(endingWrapper);
+
+  restartButton.addEventListener('click', startQuiz);
+
+  console.log('Ending');
 };
 
 startButton.addEventListener('click', startQuiz);
