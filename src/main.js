@@ -68,33 +68,42 @@ const renderQuiz = () => {
   answerB.innerText = currentWord.b;
   answerC.innerText = currentWord.c;
   answerD.innerText = currentWord.d;
-
   let buttons = document.querySelectorAll('button');
-  buttons.forEach((el) =>
-    el.addEventListener('click', (event) => {
-      let correctAnswer = Array.from(document.querySelectorAll('button')).find(
-        (button) => button.innerText === currentWord.correct
-      );
-      console.log(currentWordIndex);
-      currentScore++;
-      currentQuestionList.splice(currentWordIndex, 1);
-      console.log(currentQuestionList.length);
-      console.log(mainQuizObject);
-      if (event.target.innerHTML === correctAnswer.innerHTML) {
-        event.target.style.backgroundColor = 'green';
-        correctAnswersAmount++;
-        setTimeout(() => {
-          renderQuiz();
-        }, 2000);
-      } else if (event.target.innerHTML !== correctAnswer.innerHTML) {
-        event.target.style.backgroundColor = 'red';
-        correctAnswer.style.backgroundColor = 'green';
-        setTimeout(() => {
-          renderQuiz();
-        }, 2000);
-      }
-    })
+
+  buttons.forEach((el) => {
+    const handler = (event) => {
+      el.removeEventListener('click', handler);
+      handleAnswer(event, currentWord, currentWordIndex);
+    };
+    el.addEventListener('click', handler);
+  });
+};
+
+const handleAnswer = (event, currentWord, currentWordIndex) => {
+  let correctAnswer = Array.from(document.querySelectorAll('button')).find(
+    (button) => button.innerText === currentWord.correct
   );
+  console.log(currentWordIndex);
+  currentScore++;
+  currentQuestionList.splice(currentWordIndex, 1);
+  console.log(currentQuestionList.length);
+  console.log(mainQuizObject);
+  if (event.target.innerHTML === correctAnswer.innerHTML) {
+    event.target.style.backgroundColor = 'green';
+    correctAnswersAmount++;
+
+    setTimeout(() => {
+      renderQuiz();
+    }, 2000);
+  } else if (event.target.innerHTML !== correctAnswer.innerHTML) {
+    event.target.style.backgroundColor = 'red';
+    correctAnswer.style.backgroundColor = 'green';
+
+    setTimeout(() => {
+      renderQuiz();
+    }, 2000);
+  }
+
   handleRoundEnd();
 };
 
