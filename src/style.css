@@ -33,3 +33,38 @@
     transition: 500ms;
   }
 }
+
+.level__button {
+  color: #ffffff;
+  background-color: gray;
+  padding: 1.25rem;
+  border-radius: 15px;
+  font-family: Gidole;
+  font-size: 18px;
+  font-weight: bold;
+  min-width: 10%;
+  cursor: pointer;
+}
+
+.level__button--easy {
+  background-color: teal;
+  &:hover {
+    background-color: teal;
+  }
+}
+.level__button--medium {
+  background-color: gold;
+  &:hover {
+    background-color: gold;
+  }
+}
+.level__button--hard {
+  background-color: red;
+  &:hover {
+    background-color: red;
+  }
+}
+
+.disabled {
+  background-color: gray;
+}

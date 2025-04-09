@@ -15,11 +15,26 @@
     <div id="app" class="flex justify-center mt-30 mb-60">
       <h1 class="font-gidole text-5xl text-white">From Moscow to London</h1>
     </div>
-    <div id="container" class="flex justify-center relative">
+    <div id="container" class="flex justify-center relative mb-20">
       <button
         class="text-white bg-indigo-500 p-5 font-gidole text-2x1 font-bold rounded-xl min-w-30 hover:cursor-pointer hover:bg-indigo-400"
         id="start">
         Start
+      </button>
+    </div>
+    <div class="flex justify-center gap-20">
+      <button id="button-easy" class="level__button level__button--easy">
+        Easy
+      </button>
+      <button
+        id="button-medium"
+        class="level__button level__button--medium disabled">
+        Medium
+      </button>
+      <button
+        id="button-hard"
+        class="level__button level__button--hard disabled">
+        Hard
       </button>
     </div>
     <script type="module" src="/src/main.js"></script>
