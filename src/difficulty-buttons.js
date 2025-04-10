@@ -1,13 +1,35 @@
-const easyButton = document.getElementById('button-easy');
-const mediumButton = document.getElementById('button-medium');
-const hardButton = document.getElementById('button-hard');
+const levelButtons = document.querySelectorAll('.level__button');
+export let currentDifficulty = 'easy';
 
 const makeActive = (event) => {
-  if (event.target.id === easyButton) {
-    event.target.classList.add('bg-teal-500');
-  } else if (event.target.id === mediumButton) {
-    event.target.classList.add('bg-yellow-500');
-  } else {
-    event.target.classList.add('bg-red-500');
+  disableButtons();
+  event.target.classList.remove('disabled');
+  event.target.classList.add('active');
+  currentDifficulty = event.target.innerText.toLowerCase();
+  console.log(currentDifficulty);
+};
+
+const disableButtons = () => {
+  levelButtons.forEach((element) => {
+    element.classList.add('disabled');
+    element.classList.remove('active');
+  });
+};
+
+export const handleLevelButtons = () => {
+  levelButtons.forEach((element) =>
+    element.addEventListener('click', makeActive)
+  );
+};
+
+export const getCurrentDifficulty = () => {
+  return currentDifficulty;
+};
+
+export const initDifficulty = () => {
+  const activeButton = document.querySelector('.level__button.active');
+  if (activeButton) {
+    currentDifficulty = activeButton.innerText.toLowerCase();
   }
 };
+console.log(currentDifficulty);

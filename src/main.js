@@ -1,6 +1,10 @@
 import './style.css';
 import { mainQuizObject } from './main-quiz';
-
+import {
+  handleLevelButtons,
+  initDifficulty,
+  currentDifficulty,
+} from './difficulty-buttons';
 const startButton = document.getElementById('start');
 const container = document.getElementById('container');
 const allPositions = [
@@ -9,6 +13,13 @@ const allPositions = [
   { colStart: 2, rowStart: 2 },
   { colStart: 2, rowStart: 3 },
 ];
+
+document.addEventListener('DOMContentLoaded', () => {
+  handleLevelButtons();
+  initDifficulty();
+});
+
+console.log(currentDifficulty);
 
 const startQuiz = () => {
   currentScore = 0;
@@ -19,6 +30,14 @@ const startQuiz = () => {
 let currentScore = 0;
 let correctAnswersAmount = 0;
 let currentQuestionList = [...mainQuizObject];
+
+if (currentDifficulty == 'easy') {
+  currentQuestionList = [...mainQuizObject];
+} else if (currentDifficulty == 'medium') {
+  currentQuestionList = [...mediumQuizObject];
+} else if (currentDifficulty == 'hard') {
+  currentQuestionList = [...hardQuizObject];
+}
 
 const renderQuiz = () => {
   container.innerHTML = '';
