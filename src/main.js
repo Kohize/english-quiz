@@ -1,5 +1,7 @@
 import './style.css';
 import { mainQuizObject } from './main-quiz';
+import { mediumQuizObject } from './medium-quiz';
+import { hardQuizObject } from './hard-quiz';
 import {
   handleLevelButtons,
   initDifficulty,
@@ -19,8 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initDifficulty();
 });
 
-console.log(currentDifficulty);
-
 const startQuiz = () => {
   currentScore = 0;
   correctAnswersAmount = 0;
@@ -29,8 +29,7 @@ const startQuiz = () => {
 
 let currentScore = 0;
 let correctAnswersAmount = 0;
-let currentQuestionList = [...mainQuizObject];
-
+let currentQuestionList = [];
 if (currentDifficulty == 'easy') {
   currentQuestionList = [...mainQuizObject];
 } else if (currentDifficulty == 'medium') {
@@ -102,11 +101,11 @@ const handleAnswer = (event, currentWord, currentWordIndex) => {
   let correctAnswer = Array.from(document.querySelectorAll('button')).find(
     (button) => button.innerText === currentWord.correct
   );
-  console.log(currentWordIndex);
   currentScore++;
-  currentQuestionList.splice(currentWordIndex, 1);
+  console.log(currentWordIndex);
   console.log(currentQuestionList.length);
-  console.log(mainQuizObject);
+  console.log(currentQuestionList);
+  currentQuestionList.splice(currentWordIndex, 1);
   if (event.target.innerHTML === correctAnswer.innerHTML) {
     event.target.style.backgroundColor = 'green';
     correctAnswersAmount++;
