@@ -1,5 +1,5 @@
 const levelButtons = document.querySelectorAll('.level__button');
-export let currentDifficulty = 'easy';
+export let currentDifficulty = '';
 
 const makeActive = (event) => {
   disableButtons();

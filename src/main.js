@@ -16,27 +16,28 @@ const allPositions = [
   { colStart: 2, rowStart: 3 },
 ];
 
+let currentScore = 0;
+let correctAnswersAmount = 0;
+let currentQuestionList = [];
+
 document.addEventListener('DOMContentLoaded', () => {
   handleLevelButtons();
   initDifficulty();
 });
 
 const startQuiz = () => {
+  // Реалиьзовать логику по убиранию блока кнопок со сложностью при старте раунда
   currentScore = 0;
   correctAnswersAmount = 0;
+  if (currentDifficulty == 'easy') {
+    currentQuestionList = [...mainQuizObject];
+  } else if (currentDifficulty == 'medium') {
+    currentQuestionList = [...mediumQuizObject];
+  } else if (currentDifficulty == 'hard') {
+    currentQuestionList = [...hardQuizObject];
+  }
   renderQuiz();
 };
-
-let currentScore = 0;
-let correctAnswersAmount = 0;
-let currentQuestionList = [];
-if (currentDifficulty == 'easy') {
-  currentQuestionList = [...mainQuizObject];
-} else if (currentDifficulty == 'medium') {
-  currentQuestionList = [...mediumQuizObject];
-} else if (currentDifficulty == 'hard') {
-  currentQuestionList = [...hardQuizObject];
-}
 
 const renderQuiz = () => {
   container.innerHTML = '';
@@ -69,7 +70,6 @@ const renderQuiz = () => {
     'font-bold',
     'col-start-1',
     'col-end-3',
-    'min-w-xl',
     'text-5xl',
     'text-center'
   );
