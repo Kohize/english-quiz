@@ -20,6 +20,7 @@
   transition: all 250ms;
   overflow: hidden;
   cursor: pointer;
+  min-width: 20vw;
 
   &:hover {
     -webkit-box-shadow:
@@ -67,4 +68,11 @@
 
 .disabled {
   background-color: gray;
+}
+
+.score__container {
+  @media (width <= 850px) {
+    right: 165px;
+    top: 305px;
+  }
 }

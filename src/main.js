@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const startQuiz = () => {
-  // Реалиьзовать логику по убиранию блока кнопок со сложностью при старте раунда
+  const buttonWrapper = document.querySelector('.level__button--wrapper');
+  buttonWrapper.style.display = 'none';
   currentScore = 0;
   correctAnswersAmount = 0;
   if (currentDifficulty == 'easy') {
@@ -112,14 +113,14 @@ const handleAnswer = (event, currentWord, currentWordIndex) => {
 
     setTimeout(() => {
       renderQuiz();
-    }, 2000);
+    }, 1500);
   } else if (event.target.innerHTML !== correctAnswer.innerHTML) {
     event.target.style.backgroundColor = 'red';
     correctAnswer.style.backgroundColor = 'green';
 
     setTimeout(() => {
       renderQuiz();
-    }, 2000);
+    }, 1500);
   }
 
   handleRoundEnd();
@@ -131,7 +132,12 @@ const renderCounter = (currentScore) => {
 
   counter.innerText = `${currentScore}/20`;
   counter.classList.add('text-white', 'font-bold', 'text-4xl');
-  scoreContainer.classList.add('absolute', 'top-[55%]', 'right-[15%]');
+  scoreContainer.classList.add(
+    'absolute',
+    'top-[55%]',
+    'right-[15%]',
+    'score__container'
+  );
   scoreContainer.append(counter);
   return scoreContainer;
 };
